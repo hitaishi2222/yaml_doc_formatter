@@ -1,14 +1,18 @@
 page:
   paper: a4
-  margin: 4cm
+  margin: 2cm
 text:
   font: Times New Roman
   size: 13pt
-para:
+par:
   justify: true
 1:
   heading:
-    size: 13pt
+    # numbering: "1."
+    text:
+      size: 13pt
+  page:
+    margin: 1cm
 # acknowledment:
 #   heading:
 #     size: 13pt

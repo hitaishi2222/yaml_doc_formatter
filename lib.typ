@@ -12,11 +12,9 @@
 
 #let check_dict(item) = if type(item) != dictionary { false } else { true }
 
-#set page(paper: "a4")
-#set text(font: "Times New Roman", size: 15pt)
-#set par(justify: true)
 
-#let to_form(item) = {
+#let panic_keys = ("paper", "font", "style", "lang")
+#let special_eval(item) = {
   if not check_dict(item) {
     panic("Given item is not dictionary.")
   }
@@ -25,29 +23,7 @@
   if item.len() != 1 {
     return
   } else {
-    if item.keys().first() in ("paper", "font") {
-      return item
-    } else if item.keys().first() == "body" {
-      return (key: [#val])
-    } else if type(val) == bool {
-      return item
-    } else {
-      return (item.keys().first(): eval(val))
-    }
-  }
-}
-
-// NEW ONE
-#let to_form(item) = {
-  if not check_dict(item) {
-    panic("Given item is not dictionary.")
-  }
-  let key = item.keys().first()
-  let val = item.at(key)
-  if item.len() != 1 {
-    return
-  } else {
-    if item.keys().first() in ("paper", "font") {
+    if item.keys().first() in panic_keys {
       return val
     } else if item.keys().first() == "body" {
       return val
@@ -59,19 +35,11 @@
   }
 }
 
-
-#to_form((body: "to play"))
-
-#let ex1 = (hello: (paper: "a4"))
-#let ex2 = (paper: "a4")
-
-#let to_sdict(k, v) = {
+#let single_key_dict(k, v) = {
   let d = (:)
   d.insert(k, v)
   d
 }
-
-#to_sdict("paper", "a4")
 
 #let has_dict(dict) = {
   if check_dict(dict) {
@@ -79,16 +47,8 @@
   }
 }
 
-#has_dict(ex2)
+#let conf_yml = yaml("format.yml")
 
-#type(ex2.values().first())
-#type(ex1.values().first())
-
-#to_form((body: "to play"))
-
-#let df = yaml("format.yml")
-
-#let my-dict = (a: "10pt", b: "20pt")
 
 #let format_dict(old_dict) = {
   if has_dict(old_dict) {
@@ -103,17 +63,12 @@
     let keys = old_dict.keys()
     let new_dict = (:)
     for key in keys {
-      new_dict.insert(key, to_form(to_sdict(key, old_dict.at(key))))
+      new_dict.insert(key, special_eval(single_key_dict(key, old_dict.at(key))))
     }
     return new_dict
   }
 }
 
-
-
-#df
-
-// #format_dict(my-dict)
 
 #let conf_dict(dict) = (
   dict
@@ -126,24 +81,57 @@
 )
 
 
-#let new_df = conf_dict(df)
 
-#new_df
+#let cf = conf_dict(conf_yml)
 
+#let setup-environment(config) = {
+  it => {
+    set page(..config.at("page", default: (:)))
+    set text(..config.at("text", default: (:)))
+    set par(..config.at("par", default: (:)))
+    it
+  }
+}
 
-
-// #let conf(doc) = {
-//   set page(..settings)
-//   set text(..df.at("text"))
-//
-//   doc
-// }
-//
-// #show: doc => conf(doc)
-
+#show: setup-environment(cf)
 
 = Hello
 
 == Secondary
 
 Only snake_case are allowed in yaml.
+
+#conf_yml
+#cf
+
+#lorem(50)
+#let prob = ("1": (heading: (text: (size: 13pt))))
+
+#prob
+
+// #type(prob)
+// #prob.keys()
+
+#let config_heading(config) = {
+  let config = config
+  if (type(config) == array and config.len() == 1) {
+    let new_conf = config.at(0)
+    if new_conf.keys().contains("heading") {
+      config = new_conf.at("heading")
+    }
+  }
+  config
+}
+
+#config_heading(prob.values())
+
+#show heading: it => {
+  context {
+    let current_page = it.location().page()
+    if str(current_page) in prob.keys() {
+      prob.values()
+    }
+  }
+}
+
+= World
