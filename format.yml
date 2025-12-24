@@ -1,0 +1,18 @@
+page:
+  paper: a4
+  margin: 4cm
+text:
+  font: Times New Roman
+  size: 13pt
+para:
+  justify: true
+1:
+  heading:
+    size: 13pt
+# acknowledment:
+#   heading:
+#     size: 13pt
+#     color: blue
+# 1-12:
+#   heading:
+#     size: 13pt

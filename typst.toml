@@ -1,0 +1,7 @@
+[package]
+name = "yaml-doc-formatter"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Hitaishi V"]
+license = "MIT"
+description = "Format your document through yaml file"
