@@ -8,7 +8,7 @@ par:
   justify: true
 1:
   heading:
-    # numbering: "1."
+    numbering: "1."
     text:
       size: 13pt
   page:

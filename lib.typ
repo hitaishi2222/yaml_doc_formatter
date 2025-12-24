@@ -12,6 +12,11 @@
 
 #let check_dict(item) = if type(item) != dictionary { false } else { true }
 
+#let single_key_dict(k, v) = {
+  let d = (:)
+  d.insert(k, v)
+  d
+}
 
 #let panic_keys = ("paper", "font", "style", "lang")
 #let special_eval(item) = {
@@ -29,17 +34,22 @@
       return val
     } else if type(val) == bool {
       return val
+    } else if type(val) == dictionary {
+      let keys = val.keys()
+      let new_dict = (:)
+      for key in keys {
+        new_dict.insert(key, special_eval(single_key_dict(
+          key,
+          val.at(key),
+        )))
+      }
+      return new_dict
     } else {
       return eval(val)
     }
   }
 }
 
-#let single_key_dict(k, v) = {
-  let d = (:)
-  d.insert(k, v)
-  d
-}
 
 #let has_dict(dict) = {
   if check_dict(dict) {
@@ -101,16 +111,16 @@
 
 Only snake_case are allowed in yaml.
 
-#conf_yml
-#cf
+// #conf_yml
+// #cf
 
 #lorem(50)
 #let prob = ("1": (heading: (text: (size: 13pt))))
 
 #prob
 
-// #type(prob)
-// #prob.keys()
+#type(prob)
+#prob.keys()
 
 #let config_heading(config) = {
   let config = config
@@ -135,3 +145,8 @@ Only snake_case are allowed in yaml.
 }
 
 = World
+
+#let ps = conf_yml.at("1")
+#ps
+
+#format_dict(ps)
