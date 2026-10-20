@@ -2,10 +2,9 @@
 
 Format a [Typst](https://typst.app) document from a YAML file.
 
-The styling — page geometry, fonts, paragraph settings, heading numbering, and
-per-section overrides — lives in a YAML file instead of being scattered through
-the Typst source. The Typst document then references the parsed configuration
-where it needs it.
+The styling (page geometry, fonts, paragraph settings, heading numbering, per-section
+overrides) lives in a YAML file instead of being scattered through the Typst source.
+The Typst document then references the parsed configuration where it needs it.
 
 <p>
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square"/>
@@ -16,7 +15,7 @@ where it needs it.
 
 | File | What it is |
 |---|---|
-| `lib.typ` | The package — the Typst functions that read and apply the YAML config |
+| `lib.typ` | The package: the Typst functions that read and apply the YAML config |
 | `format.yml` | Example configuration |
 | `typst.toml` | Package manifest |
 
@@ -68,9 +67,9 @@ the same `format_dict` helper.
 
 ## Status
 
-Experimental. The package is still being shaped — the YAML schema may change,
-and the example configuration covers only the cases I have needed so far.
+Experimental. The package is still being shaped: the YAML schema may change, and
+the example configuration covers only the cases I have needed so far.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
